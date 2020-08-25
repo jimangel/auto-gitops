@@ -1,0 +1,41 @@
+---
+# Source: flux/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: flux
+  labels:
+    app: flux
+    chart: flux-1.5.0
+    release: flux
+    heritage: Helm
+rules:
+  - apiGroups:
+      - '*'
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - nonResourceURLs:
+      - '*'
+    verbs:
+      - '*'
+---
+# Source: flux/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: flux
+  labels:
+    app: flux
+    chart: flux-1.5.0
+    release: flux
+    heritage: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: flux
+subjects:
+  - name: flux
+    namespace: "flux"
+    kind: ServiceAccount
