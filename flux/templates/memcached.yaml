@@ -9,6 +9,7 @@ metadata:
     chart: flux-1.5.0
     release: flux
     heritage: Helm
+  namespace: flux
 spec:
   ports:
     - port: 11211

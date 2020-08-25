@@ -78,7 +78,7 @@ spec:
           - --memcached-hostname=flux-memcached
           - --sync-state=git
           - --memcached-service=
-          - --git-url=git@github.com:jimangel/auto-gitops
+          - --git-url=git@github.com:jimangel/auto-gitops.git
           - --git-branch=master
           - --git-path=
           - --git-readonly=false
