@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -98,7 +99,7 @@ spec:
           value: "true"
         - name: FELIX_IGNORELOOSERPF
           value: "False"
-        image: docker.io/calico/node:v3.15.1
+        image: docker.io/calico/node:9512289
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
@@ -159,7 +160,7 @@ spec:
           value: /host/etc/cni/net.d/calico.conflist.template
         - name: SLEEP
           value: "false"
-        image: docker.io/calico/cni:v3.15.1
+        image: docker.io/calico/cni:v3.17.0-0.dev-8-g4d30758-ppc64le
         imagePullPolicy: IfNotPresent
         name: install-cni
         resources: {}

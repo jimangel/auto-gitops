@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,7 +20,7 @@ spec:
     type: Recreate
   template:
     metadata:
-      creationTimestamp: null
+      creationTimestamp:
       labels:
         k8s-app: calico-kube-controllers
       name: calico-kube-controllers
@@ -33,7 +34,7 @@ spec:
           value: /etc/calico/certs/cert.crt
         - name: ETCD_KEY_FILE
           value: /etc/calico/certs/key.pem
-        image: docker.io/calico/kube-controllers:v3.15.1
+        image: docker.io/calico/kube-controllers:v3.17.0-0.dev-9-g9814cc5-ppc64le
         imagePullPolicy: IfNotPresent
         name: calico-kube-controllers
         readinessProbe:
