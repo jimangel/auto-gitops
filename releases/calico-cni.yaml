@@ -4,8 +4,8 @@ kind: DaemonSet
 metadata:
   annotations:
     flux.weave.works/automated: "true"
-    flux.weave.works/tag.install-cni: semver:~3.
-    flux.weave.works/tag.calico-node: semver:~3.
+    flux.weave.works/tag.install-cni: regexp:^v((([0-9]+)\.([0-9]+)\.([0-9]+)?)(?:\+)?)$
+    flux.weave.works/tag.calico-node: regexp:^v((([0-9]+)\.([0-9]+)\.([0-9]+)?)(?:\+)?)$
   labels:
     k8s-app: calico-node
   name: calico-node
@@ -99,7 +99,7 @@ spec:
           value: "true"
         - name: FELIX_IGNORELOOSERPF
           value: "False"
-        image: docker.io/calico/node:9512289
+        image: docker.io/calico/node:v3.15.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
@@ -160,7 +160,7 @@ spec:
           value: /host/etc/cni/net.d/calico.conflist.template
         - name: SLEEP
           value: "false"
-        image: docker.io/calico/cni:v3.17.0-0.dev-8-g4d30758-ppc64le
+        image: docker.io/calico/cni:v3.15.1
         imagePullPolicy: IfNotPresent
         name: install-cni
         resources: {}
