@@ -34,7 +34,7 @@ spec:
           value: /etc/calico/certs/cert.crt
         - name: ETCD_KEY_FILE
           value: /etc/calico/certs/key.pem
-        image: docker.io/calico/kube-controllers:v3.15.1
+        image: docker.io/calico/kube-controllers:v3.15.2
         imagePullPolicy: IfNotPresent
         name: calico-kube-controllers
         readinessProbe:
