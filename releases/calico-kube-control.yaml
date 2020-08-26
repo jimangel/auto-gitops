@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   annotations:
     flux.weave.works/automated: "true"
-    flux.weave.works/tag.calico-kube-controllers: semver:~3.
+    flux.weave.works/tag.calico-kube-controllers: regexp:^v((([0-9]+)\.([0-9]+)\.([0-9]+)?)(?:\+)?)$
   labels:
     k8s-app: calico-kube-controllers
   name: calico-kube-controllers
@@ -34,7 +34,7 @@ spec:
           value: /etc/calico/certs/cert.crt
         - name: ETCD_KEY_FILE
           value: /etc/calico/certs/key.pem
-        image: docker.io/calico/kube-controllers:v3.17.0-0.dev-9-g9814cc5-ppc64le
+        image: docker.io/calico/kube-controllers:v3.15.1
         imagePullPolicy: IfNotPresent
         name: calico-kube-controllers
         readinessProbe:
