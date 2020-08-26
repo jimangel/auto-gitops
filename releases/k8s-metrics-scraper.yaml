@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     flux.weave.works/automated: "true"
-    flux.weave.works/tag.kubernetes-metrics-scraper: semver:~1.
+    flux.weave.works/tag.kubernetes-metrics-scraper: regexp:^v((([0-9]+)\.([0-9]+)\.([0-9]+)?)(?:\+)?)$
   labels:
     k8s-app: kubernetes-metrics-scraper
   name: kubernetes-metrics-scraper
