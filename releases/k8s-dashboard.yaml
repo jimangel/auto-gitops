@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   annotations:
     flux.weave.works/automated: "true"
-    flux.weave.works/tag.kubernetes-dashboard: semver:~2.
+    flux.weave.works/tag.kubernetes-dashboard: regexp:^v((([0-9]+)\.([0-9]+)\.([0-9]+)?)(?:\+)?)$
   labels:
     k8s-app: kubernetes-dashboard
   name: kubernetes-dashboard
