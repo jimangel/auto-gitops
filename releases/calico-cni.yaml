@@ -1,0 +1,216 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    flux.weave.works/automated: "true"
+    flux.weave.works/tag.install-cni: semver:~3.
+    flux.weave.works/tag.calico-node: semver:~3.
+  labels:
+    k8s-app: calico-node
+  name: calico-node
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      k8s-app: calico-node
+  template:
+    metadata:
+      annotations:
+      labels:
+        k8s-app: calico-node
+    spec:
+      containers:
+      - env:
+        - name: ETCD_ENDPOINTS
+          valueFrom:
+            configMapKeyRef:
+              key: etcd_endpoints
+              name: calico-config
+        - name: ETCD_CA_CERT_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: etcd_ca
+              name: calico-config
+        - name: ETCD_KEY_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: etcd_key
+              name: calico-config
+        - name: ETCD_CERT_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: etcd_cert
+              name: calico-config
+        - name: CALICO_NETWORKING_BACKEND
+          valueFrom:
+            configMapKeyRef:
+              key: calico_backend
+              name: calico-config
+        - name: CLUSTER_TYPE
+          valueFrom:
+            configMapKeyRef:
+              key: cluster_type
+              name: calico-config
+        - name: CALICO_K8S_NODE_REF
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: CALICO_DISABLE_FILE_LOGGING
+          value: "true"
+        - name: FELIX_DEFAULTENDPOINTTOHOSTACTION
+          value: RETURN
+        - name: FELIX_HEALTHHOST
+          value: localhost
+        - name: FELIX_IPTABLESBACKEND
+          value: Legacy
+        - name: FELIX_IPTABLESLOCKTIMEOUTSECS
+          value: "10"
+        - name: CALICO_IPV4POOL_IPIP
+          value: "Off"
+        - name: FELIX_IPV6SUPPORT
+          value: "false"
+        - name: FELIX_LOGSEVERITYSCREEN
+          value: info
+        - name: FELIX_USAGEREPORTINGENABLED
+          value: "False"
+        - name: FELIX_CHAININSERTMODE
+          value: Insert
+        - name: FELIX_PROMETHEUSMETRICSENABLED
+          value: "False"
+        - name: FELIX_PROMETHEUSMETRICSPORT
+          value: "9091"
+        - name: FELIX_PROMETHEUSGOMETRICSENABLED
+          value: "True"
+        - name: FELIX_PROMETHEUSPROCESSMETRICSENABLED
+          value: "True"
+        - name: IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        - name: NODENAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: FELIX_HEALTHENABLED
+          value: "true"
+        - name: FELIX_IGNORELOOSERPF
+          value: "False"
+        image: docker.io/calico/node:v3.15.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /bin/calico-node
+            - -felix-live
+            - -bird-live
+          failureThreshold: 6
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: calico-node
+        readinessProbe:
+          exec:
+            command:
+            - /bin/calico-node
+            - -bird-ready
+            - -felix-ready
+          failureThreshold: 6
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: 300m
+            memory: 500M
+          requests:
+            cpu: 150m
+            memory: 64M
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /lib/modules
+          name: lib-modules
+          readOnly: true
+        - mountPath: /var/run/calico
+          name: var-run-calico
+        - mountPath: /var/lib/calico
+          name: var-lib-calico
+        - mountPath: /calico-secrets
+          name: etcd-certs
+        - mountPath: /run/xtables.lock
+          name: xtables-lock
+      dnsPolicy: ClusterFirst
+      hostNetwork: true
+      initContainers:
+      - command:
+        - /install-cni.sh
+        env:
+        - name: CNI_CONF_NAME
+          value: 10-calico.conflist
+        - name: UPDATE_CNI_BINARIES
+          value: "true"
+        - name: CNI_NETWORK_CONFIG_FILE
+          value: /host/etc/cni/net.d/calico.conflist.template
+        - name: SLEEP
+          value: "false"
+        image: docker.io/calico/cni:v3.15.1
+        imagePullPolicy: IfNotPresent
+        name: install-cni
+        resources: {}
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /host/etc/cni/net.d
+          name: cni-net-dir
+        - mountPath: /host/opt/cni/bin
+          name: cni-bin-dir
+      priorityClassName: system-node-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: calico-node
+      serviceAccountName: calico-node
+      terminationGracePeriodSeconds: 0
+      tolerations:
+      - operator: Exists
+      volumes:
+      - hostPath:
+          path: /lib/modules
+          type: ""
+        name: lib-modules
+      - hostPath:
+          path: /var/run/calico
+          type: ""
+        name: var-run-calico
+      - hostPath:
+          path: /var/lib/calico
+          type: ""
+        name: var-lib-calico
+      - hostPath:
+          path: /etc/cni/net.d
+          type: ""
+        name: cni-net-dir
+      - hostPath:
+          path: /opt/cni/bin
+          type: ""
+        name: cni-bin-dir
+      - hostPath:
+          path: /etc/calico/certs
+          type: ""
+        name: etcd-certs
+      - hostPath:
+          path: /run/xtables.lock
+          type: FileOrCreate
+        name: xtables-lock
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 20%
+    type: RollingUpdate
