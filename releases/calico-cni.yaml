@@ -160,7 +160,7 @@ spec:
           value: /host/etc/cni/net.d/calico.conflist.template
         - name: SLEEP
           value: "false"
-        image: docker.io/calico/cni:v3.15.2
+        image: docker.io/calico/cni:v3.16.0
         imagePullPolicy: IfNotPresent
         name: install-cni
         resources: {}
