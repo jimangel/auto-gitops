@@ -99,7 +99,7 @@ spec:
           value: "true"
         - name: FELIX_IGNORELOOSERPF
           value: "False"
-        image: docker.io/calico/node:v3.15.2
+        image: docker.io/calico/node:v3.16.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
