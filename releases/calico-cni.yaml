@@ -262,7 +262,7 @@ spec:
                   peering between the local node and selected remote nodes, we configure
                   an IPv4 peering if both ends have NodeBGPSpec.IPv4Address specified,
                   and an IPv6 peering if both ends have NodeBGPSpec.IPv6Address specified.  The
-                  remote AS number comes from the remote nodeâ€™s NodeBGPSpec.ASNumber,
+                  remote AS number comes from the remote node’s NodeBGPSpec.ASNumber,
                   or the global default if that is not set.
                 type: string
             required:
@@ -522,10 +522,10 @@ spec:
                   `tc exec bpf debug`. [Default: Off].'
                 type: string
               chainInsertMode:
-                description: 'ChainInsertMode controls whether Felix hooks the kernelâ€™s
+                description: 'ChainInsertMode controls whether Felix hooks the kernel’s
                   top-level iptables chains by inserting a rule at the top of the
                   chain or by appending a rule at the bottom. insert is the safe default
-                  since it prevents Calicoâ€™s rules from being bypassed. If you switch
+                  since it prevents Calico’s rules from being bypassed. If you switch
                   to append mode, be sure that the other rules in the chains signal
                   acceptance by falling through to the Calico rules, otherwise the
                   Calico policy will be bypassed. [Default: insert]'
@@ -545,11 +545,11 @@ spec:
                   traffic that goes from a workload endpoint to the host itself (after
                   the traffic hits the endpoint egress policy). By default Calico
                   blocks traffic from workload endpoints to the host itself with an
-                  iptables â€œDROPâ€ action. If you want to allow some or all traffic
+                  iptables “DROP” action. If you want to allow some or all traffic
                   from endpoint to host, set this parameter to RETURN or ACCEPT. Use
-                  RETURN if you have your own rules in the iptables â€œINPUTâ€ chain;
-                  Calico will insert its rules at the top of that chain, then â€œRETURNâ€
-                  packets to the â€œINPUTâ€ chain once it has completed processing workload
+                  RETURN if you have your own rules in the iptables “INPUT” chain;
+                  Calico will insert its rules at the top of that chain, then “RETURN”
+                  packets to the “INPUT” chain once it has completed processing workload
                   endpoint egress policy. Use ACCEPT to unconditionally accept packets
                   from workloads after processing workload endpoint egress policy.
                   [Default: Drop]'
@@ -583,7 +583,7 @@ spec:
                   accidentally cutting off a host with incorrect configuration. Each
                   port should be specified as tcp:<port-number> or udp:<port-number>.
                   For back-compatibility, if the protocol is not specified, it defaults
-                  to â€œtcpâ€. To disable all inbound host ports, use the value none.
+                  to “tcp”. To disable all inbound host ports, use the value none.
                   The default value allows ssh access and DHCP. [Default: tcp:22,
                   udp:68, tcp:179, tcp:2379, tcp:2380, tcp:6443, tcp:6666, tcp:6667]'
                 items:
@@ -606,8 +606,8 @@ spec:
                   to avoid accidentally cutting off a host with incorrect configuration.
                   Each port should be specified as tcp:<port-number> or udp:<port-number>.
                   For back-compatibility, if the protocol is not specified, it defaults
-                  to â€œtcpâ€. To disable all outbound host ports, use the value none.
-                  The default value opens etcdâ€™s standard ports to ensure that Felix
+                  to “tcp”. To disable all outbound host ports, use the value none.
+                  The default value opens etcd’s standard ports to ensure that Felix
                   does not get cut off from etcd as well as allowing DHCP and DNS.
                   [Default: tcp:179, tcp:2379, tcp:2380, tcp:6443, tcp:6666, tcp:6667,
                   udp:53, udp:67]'
@@ -659,8 +659,8 @@ spec:
                   workload endpoints and so distinguishes them from host endpoint
                   interfaces. Note: in environments other than bare metal, the orchestrators
                   configure this appropriately. For example our Kubernetes and Docker
-                  integrations set the â€˜caliâ€™ value, and our OpenStack integration
-                  sets the â€˜tapâ€™ value. [Default: cali]'
+                  integrations set the ‘cali’ value, and our OpenStack integration
+                  sets the ‘tap’ value. [Default: cali]'
                 type: string
               interfaceRefreshInterval:
                 description: InterfaceRefreshInterval is the period at which Felix
@@ -676,7 +676,7 @@ spec:
               ipsetsRefreshInterval:
                 description: 'IpsetsRefreshInterval is the period at which Felix re-checks
                   all iptables state to ensure that no other process has accidentally
-                  broken Calicoâ€™s rules. Set to 0 to disable iptables refresh. [Default:
+                  broken Calico’s rules. Set to 0 to disable iptables refresh. [Default:
                   90s]'
                 type: string
               iptablesBackend:
@@ -688,7 +688,7 @@ spec:
               iptablesLockFilePath:
                 description: 'IptablesLockFilePath is the location of the iptables
                   lock file. You may need to change this if the lock file is not in
-                  its standard location (for example if you have mapped it into Felixâ€™s
+                  its standard location (for example if you have mapped it into Felix’s
                   container at a different path). [Default: /run/xtables.lock]'
                 type: string
               iptablesLockProbeInterval:
@@ -720,13 +720,13 @@ spec:
                 description: 'IptablesPostWriteCheckInterval is the period after Felix
                   has done a write to the dataplane that it schedules an extra read
                   back in order to check the write was not clobbered by another process.
-                  This should only occur if another application on the system doesnâ€™t
+                  This should only occur if another application on the system doesn’t
                   respect the iptables lock. [Default: 1s]'
                 type: string
               iptablesRefreshInterval:
                 description: 'IptablesRefreshInterval is the period at which Felix
                   re-checks the IP sets in the dataplane to ensure that no other process
-                  has accidentally broken Calicoâ€™s rules. Set to 0 to disable IP sets
+                  has accidentally broken Calico’s rules. Set to 0 to disable IP sets
                   refresh. Note: the default for this value is lower than the other
                   refresh intervals as a workaround for a Linux kernel bug that was
                   fixed in kernel version 4.11. If you are using v4.11 or greater
@@ -780,7 +780,7 @@ spec:
                 type: string
               metadataPort:
                 description: 'MetadataPort is the port of the metadata server. This,
-                  combined with global.MetadataAddr (if not â€˜Noneâ€™), is used to set
+                  combined with global.MetadataAddr (if not ‘None’), is used to set
                   up a NAT rule, from 169.254.169.254:80 to MetadataAddr:MetadataPort.
                   In most cases this should not need to be changed [Default: 8775].'
                 type: integer
@@ -856,7 +856,7 @@ spec:
               routeRefreshInterval:
                 description: 'RouterefreshInterval is the period at which Felix re-checks
                   the routes in the dataplane to ensure that no other process has
-                  accidentally broken Calicoâ€™s rules. Set to 0 to disable route refresh.
+                  accidentally broken Calico’s rules. Set to 0 to disable route refresh.
                   [Default: 90s]'
                 type: string
               routeSource:
@@ -1005,7 +1005,7 @@ spec:
                     action.  Both selector-based security Policy and security Profiles
                     reference rules - separated out as a list of rules for both ingress
                     and egress packet matching. \n Each positive match criteria has
-                    a negated version, prefixed with â€Notâ€. All the match criteria
+                    a negated version, prefixed with ”Not”. All the match criteria
                     within a rule must be satisfied for a packet to match. A single
                     rule can contain the positive and negative version of a match
                     and both must be satisfied for the rule to match."
@@ -1088,9 +1088,9 @@ spec:
                             One negates the set of matched endpoints, the other negates
                             the whole match: \n \tSelector = \"!has(my_label)\" matches
                             packets that are from other Calico-controlled \tendpoints
-                            that do not have the label â€œmy_labelâ€. \n \tNotSelector
+                            that do not have the label “my_label”. \n \tNotSelector
                             = \"has(my_label)\" matches packets that are not from
-                            Calico-controlled \tendpoints that do have the label â€œmy_labelâ€.
+                            Calico-controlled \tendpoints that do have the label “my_label”.
                             \n The effect is that the latter will accept packets from
                             non-Calico sources whereas the former is limited to packets
                             from Calico-controlled endpoints."
@@ -1160,7 +1160,7 @@ spec:
                         code:
                           description: Match on a specific ICMP code.  If specified,
                             the Type value must also be specified. This is a technical
-                            limitation imposed by the kernelâ€™s iptables firewall,
+                            limitation imposed by the kernel’s iptables firewall,
                             which Calico uses to enforce the rule.
                           type: integer
                         type:
@@ -1189,7 +1189,7 @@ spec:
                         code:
                           description: Match on a specific ICMP code.  If specified,
                             the Type value must also be specified. This is a technical
-                            limitation imposed by the kernelâ€™s iptables firewall,
+                            limitation imposed by the kernel’s iptables firewall,
                             which Calico uses to enforce the rule.
                           type: integer
                         type:
@@ -1293,9 +1293,9 @@ spec:
                             One negates the set of matched endpoints, the other negates
                             the whole match: \n \tSelector = \"!has(my_label)\" matches
                             packets that are from other Calico-controlled \tendpoints
-                            that do not have the label â€œmy_labelâ€. \n \tNotSelector
+                            that do not have the label “my_label”. \n \tNotSelector
                             = \"has(my_label)\" matches packets that are not from
-                            Calico-controlled \tendpoints that do have the label â€œmy_labelâ€.
+                            Calico-controlled \tendpoints that do have the label “my_label”.
                             \n The effect is that the latter will accept packets from
                             non-Calico sources whereas the former is limited to packets
                             from Calico-controlled endpoints."
@@ -1336,7 +1336,7 @@ spec:
                     action.  Both selector-based security Policy and security Profiles
                     reference rules - separated out as a list of rules for both ingress
                     and egress packet matching. \n Each positive match criteria has
-                    a negated version, prefixed with â€Notâ€. All the match criteria
+                    a negated version, prefixed with ”Not”. All the match criteria
                     within a rule must be satisfied for a packet to match. A single
                     rule can contain the positive and negative version of a match
                     and both must be satisfied for the rule to match."
@@ -1419,9 +1419,9 @@ spec:
                             One negates the set of matched endpoints, the other negates
                             the whole match: \n \tSelector = \"!has(my_label)\" matches
                             packets that are from other Calico-controlled \tendpoints
-                            that do not have the label â€œmy_labelâ€. \n \tNotSelector
+                            that do not have the label “my_label”. \n \tNotSelector
                             = \"has(my_label)\" matches packets that are not from
-                            Calico-controlled \tendpoints that do have the label â€œmy_labelâ€.
+                            Calico-controlled \tendpoints that do have the label “my_label”.
                             \n The effect is that the latter will accept packets from
                             non-Calico sources whereas the former is limited to packets
                             from Calico-controlled endpoints."
@@ -1491,7 +1491,7 @@ spec:
                         code:
                           description: Match on a specific ICMP code.  If specified,
                             the Type value must also be specified. This is a technical
-                            limitation imposed by the kernelâ€™s iptables firewall,
+                            limitation imposed by the kernel’s iptables firewall,
                             which Calico uses to enforce the rule.
                           type: integer
                         type:
@@ -1520,7 +1520,7 @@ spec:
                         code:
                           description: Match on a specific ICMP code.  If specified,
                             the Type value must also be specified. This is a technical
-                            limitation imposed by the kernelâ€™s iptables firewall,
+                            limitation imposed by the kernel’s iptables firewall,
                             which Calico uses to enforce the rule.
                           type: integer
                         type:
@@ -1624,9 +1624,9 @@ spec:
                             One negates the set of matched endpoints, the other negates
                             the whole match: \n \tSelector = \"!has(my_label)\" matches
                             packets that are from other Calico-controlled \tendpoints
-                            that do not have the label â€œmy_labelâ€. \n \tNotSelector
+                            that do not have the label “my_label”. \n \tNotSelector
                             = \"has(my_label)\" matches packets that are not from
-                            Calico-controlled \tendpoints that do have the label â€œmy_labelâ€.
+                            Calico-controlled \tendpoints that do have the label “my_label”.
                             \n The effect is that the latter will accept packets from
                             non-Calico sources whereas the former is limited to packets
                             from Calico-controlled endpoints."
@@ -1847,7 +1847,7 @@ spec:
                   is empty - through the specific interface that has one of the IPs
                   in ExpectedIPs. Therefore, when InterfaceName is empty, at least
                   one expected IP must be specified.  Only external interfaces (such
-                  as â€œeth0â€) are supported here; it isn't possible for a HostEndpoint
+                  as “eth0”) are supported here; it isn't possible for a HostEndpoint
                   to protect traffic through a specific local workload interface.
                   \n Note: Only some kinds of policy are implemented for \"*\" HostEndpoints;
                   initially just pre-DNAT policy.  Please check Calico documentation
@@ -2476,7 +2476,7 @@ spec:
                     action.  Both selector-based security Policy and security Profiles
                     reference rules - separated out as a list of rules for both ingress
                     and egress packet matching. \n Each positive match criteria has
-                    a negated version, prefixed with â€Notâ€. All the match criteria
+                    a negated version, prefixed with ”Not”. All the match criteria
                     within a rule must be satisfied for a packet to match. A single
                     rule can contain the positive and negative version of a match
                     and both must be satisfied for the rule to match."
@@ -2559,9 +2559,9 @@ spec:
                             One negates the set of matched endpoints, the other negates
                             the whole match: \n \tSelector = \"!has(my_label)\" matches
                             packets that are from other Calico-controlled \tendpoints
-                            that do not have the label â€œmy_labelâ€. \n \tNotSelector
+                            that do not have the label “my_label”. \n \tNotSelector
                             = \"has(my_label)\" matches packets that are not from
-                            Calico-controlled \tendpoints that do have the label â€œmy_labelâ€.
+                            Calico-controlled \tendpoints that do have the label “my_label”.
                             \n The effect is that the latter will accept packets from
                             non-Calico sources whereas the former is limited to packets
                             from Calico-controlled endpoints."
@@ -2631,7 +2631,7 @@ spec:
                         code:
                           description: Match on a specific ICMP code.  If specified,
                             the Type value must also be specified. This is a technical
-                            limitation imposed by the kernelâ€™s iptables firewall,
+                            limitation imposed by the kernel’s iptables firewall,
                             which Calico uses to enforce the rule.
                           type: integer
                         type:
@@ -2660,7 +2660,7 @@ spec:
                         code:
                           description: Match on a specific ICMP code.  If specified,
                             the Type value must also be specified. This is a technical
-                            limitation imposed by the kernelâ€™s iptables firewall,
+                            limitation imposed by the kernel’s iptables firewall,
                             which Calico uses to enforce the rule.
                           type: integer
                         type:
@@ -2764,9 +2764,9 @@ spec:
                             One negates the set of matched endpoints, the other negates
                             the whole match: \n \tSelector = \"!has(my_label)\" matches
                             packets that are from other Calico-controlled \tendpoints
-                            that do not have the label â€œmy_labelâ€. \n \tNotSelector
+                            that do not have the label “my_label”. \n \tNotSelector
                             = \"has(my_label)\" matches packets that are not from
-                            Calico-controlled \tendpoints that do have the label â€œmy_labelâ€.
+                            Calico-controlled \tendpoints that do have the label “my_label”.
                             \n The effect is that the latter will accept packets from
                             non-Calico sources whereas the former is limited to packets
                             from Calico-controlled endpoints."
@@ -2807,7 +2807,7 @@ spec:
                     action.  Both selector-based security Policy and security Profiles
                     reference rules - separated out as a list of rules for both ingress
                     and egress packet matching. \n Each positive match criteria has
-                    a negated version, prefixed with â€Notâ€. All the match criteria
+                    a negated version, prefixed with ”Not”. All the match criteria
                     within a rule must be satisfied for a packet to match. A single
                     rule can contain the positive and negative version of a match
                     and both must be satisfied for the rule to match."
@@ -2890,9 +2890,9 @@ spec:
                             One negates the set of matched endpoints, the other negates
                             the whole match: \n \tSelector = \"!has(my_label)\" matches
                             packets that are from other Calico-controlled \tendpoints
-                            that do not have the label â€œmy_labelâ€. \n \tNotSelector
+                            that do not have the label “my_label”. \n \tNotSelector
                             = \"has(my_label)\" matches packets that are not from
-                            Calico-controlled \tendpoints that do have the label â€œmy_labelâ€.
+                            Calico-controlled \tendpoints that do have the label “my_label”.
                             \n The effect is that the latter will accept packets from
                             non-Calico sources whereas the former is limited to packets
                             from Calico-controlled endpoints."
@@ -2962,7 +2962,7 @@ spec:
                         code:
                           description: Match on a specific ICMP code.  If specified,
                             the Type value must also be specified. This is a technical
-                            limitation imposed by the kernelâ€™s iptables firewall,
+                            limitation imposed by the kernel’s iptables firewall,
                             which Calico uses to enforce the rule.
                           type: integer
                         type:
@@ -2991,7 +2991,7 @@ spec:
                         code:
                           description: Match on a specific ICMP code.  If specified,
                             the Type value must also be specified. This is a technical
-                            limitation imposed by the kernelâ€™s iptables firewall,
+                            limitation imposed by the kernel’s iptables firewall,
                             which Calico uses to enforce the rule.
                           type: integer
                         type:
@@ -3095,9 +3095,9 @@ spec:
                             One negates the set of matched endpoints, the other negates
                             the whole match: \n \tSelector = \"!has(my_label)\" matches
                             packets that are from other Calico-controlled \tendpoints
-                            that do not have the label â€œmy_labelâ€. \n \tNotSelector
+                            that do not have the label “my_label”. \n \tNotSelector
                             = \"has(my_label)\" matches packets that are not from
-                            Calico-controlled \tendpoints that do have the label â€œmy_labelâ€.
+                            Calico-controlled \tendpoints that do have the label “my_label”.
                             \n The effect is that the latter will accept packets from
                             non-Calico sources whereas the former is limited to packets
                             from Calico-controlled endpoints."
