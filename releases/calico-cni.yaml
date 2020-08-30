@@ -3505,7 +3505,7 @@ spec:
         # It can be deleted if this is a fresh installation, or if you have already
         # upgraded to use calico-ipam.
       - name: upgrade-ipam
-        image: calico/cni:v3.16.0
+        image: calico/cni:release-v3.14-ppc64le
         command: ["/opt/cni/bin/calico-ipam", "-upgrade"]
         envFrom:
         - configMapRef:
@@ -3573,7 +3573,7 @@ spec:
         # Adds a Flex Volume Driver that creates a per-pod Unix Domain Socket to allow Dikastes
         # to communicate with Felix over the Policy Sync API.
       - name: flexvol-driver
-        image: calico/pod2daemon-flexvol:v3.16.0
+        image: calico/pod2daemon-flexvol:release-v3.14-ppc64le
         volumeMounts:
         - name: flexvol-driver-host
           mountPath: /host/driver
