@@ -3464,6 +3464,8 @@ metadata:
     flux.weave.works/automated: "true"
     flux.weave.works/tag.install-cni: regexp:^v((([0-9]+)\.([0-9]+)\.([0-9]+)?)(?:\+)?)$
     flux.weave.works/tag.calico-node: regexp:^v((([0-9]+)\.([0-9]+)\.([0-9]+)?)(?:\+)?)$
+    flux.weave.works/tag.cni: regexp:^v((([0-9]+)\.([0-9]+)\.([0-9]+)?)(?:\+)?)$
+    flux.weave.works/tag.pod2daemon-flexvol: regexp:^v((([0-9]+)\.([0-9]+)\.([0-9]+)?)(?:\+)?)$
   name: calico-node
   namespace: kube-system
   labels:
@@ -3503,7 +3505,7 @@ spec:
         # It can be deleted if this is a fresh installation, or if you have already
         # upgraded to use calico-ipam.
       - name: upgrade-ipam
-        image: calico/cni:release-v3.14-ppc64le
+        image: calico/cni:v3.16.0
         command: ["/opt/cni/bin/calico-ipam", "-upgrade"]
         envFrom:
         - configMapRef:
@@ -3571,7 +3573,7 @@ spec:
         # Adds a Flex Volume Driver that creates a per-pod Unix Domain Socket to allow Dikastes
         # to communicate with Felix over the Policy Sync API.
       - name: flexvol-driver
-        image: calico/pod2daemon-flexvol:release-v3.14-ppc64le
+        image: calico/pod2daemon-flexvol:v3.16.0
         volumeMounts:
         - name: flexvol-driver-host
           mountPath: /host/driver
