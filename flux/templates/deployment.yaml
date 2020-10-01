@@ -39,64 +39,64 @@ spec:
         emptyDir:
           medium: Memory
       containers:
-        - name: flux
-          image: "docker.io/fluxcd/flux:1.20.2"
-          imagePullPolicy: IfNotPresent
-          ports:
-          - name: http
-            containerPort: 3030
-            protocol: TCP
-          livenessProbe:
-            httpGet:
-              port: 3030
-              path: /api/flux/v6/identity.pub
-            initialDelaySeconds: 5
-            timeoutSeconds: 5
-          readinessProbe:
-            httpGet:
-              port: 3030
-              path: /api/flux/v6/identity.pub
-            initialDelaySeconds: 5
-            timeoutSeconds: 5
-          volumeMounts:
-          - name: kubedir
-            mountPath: /root/.kubectl
-          - name: git-key
-            mountPath: /etc/fluxd/ssh
-            readOnly: true
-          - name: git-keygen
-            mountPath: /var/fluxd/keygen
-          env:
-          - name: KUBECONFIG
-            value: /root/.kubectl/config
-          args:
-          - --log-format=fmt
-          
-          - --ssh-keygen-dir=/var/fluxd/keygen
-          - --ssh-keygen-format=RFC4716
-          - --k8s-secret-name=flux-git-deploy
-          - --memcached-hostname=flux-memcached
-          - --sync-state=git
-          - --memcached-service=
-          - --git-url=git@github.com:jimangel/auto-gitops.git
-          - --git-branch=master
-          - --git-path=
-          - --git-readonly=false
-          - --git-user=Weave Flux
-          - --git-email=support@weave.works
-          - --git-verify-signatures=false
-          - --git-set-author=false
-          - --git-poll-interval=5m
-          - --git-timeout=20s
-          - --sync-interval=5m
-          - --git-ci-skip=false
-          - --automation-interval=5m
-          - --registry-rps=200
-          - --registry-burst=125
-          - --registry-trace=false
-          resources:
-            requests:
-              cpu: 50m
-              memory: 64Mi
+      - name: flux
+        image: "docker.io/fluxcd/flux:1.21.0"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 3030
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            port: 3030
+            path: /api/flux/v6/identity.pub
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            port: 3030
+            path: /api/flux/v6/identity.pub
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: kubedir
+          mountPath: /root/.kubectl
+        - name: git-key
+          mountPath: /etc/fluxd/ssh
+          readOnly: true
+        - name: git-keygen
+          mountPath: /var/fluxd/keygen
+        env:
+        - name: KUBECONFIG
+          value: /root/.kubectl/config
+        args:
+        - --log-format=fmt
+
+        - --ssh-keygen-dir=/var/fluxd/keygen
+        - --ssh-keygen-format=RFC4716
+        - --k8s-secret-name=flux-git-deploy
+        - --memcached-hostname=flux-memcached
+        - --sync-state=git
+        - --memcached-service=
+        - --git-url=git@github.com:jimangel/auto-gitops.git
+        - --git-branch=master
+        - --git-path=
+        - --git-readonly=false
+        - --git-user=Weave Flux
+        - --git-email=support@weave.works
+        - --git-verify-signatures=false
+        - --git-set-author=false
+        - --git-poll-interval=5m
+        - --git-timeout=20s
+        - --sync-interval=5m
+        - --git-ci-skip=false
+        - --automation-interval=5m
+        - --registry-rps=200
+        - --registry-burst=125
+        - --registry-trace=false
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
       nodeSelector:
         beta.kubernetes.io/os: linux
