@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,12 +23,12 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
+      creationTimestamp:
       labels:
         k8s-app: kubernetes-metrics-scraper
     spec:
       containers:
-      - image: docker.io/kubernetesui/metrics-scraper:v1.0.5
+      - image: docker.io/kubernetesui/metrics-scraper:v1.0.6
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
