@@ -33,7 +33,7 @@ spec:
         - --auto-generate-certificates
         - --authentication-mode=token
         - --token-ttl=900
-        image: docker.io/kubernetesui/dashboard-amd64:v2.0.5
+        image: docker.io/kubernetesui/dashboard-amd64:v2.1.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
